@@ -36,7 +36,7 @@ namespace NorthwindConsole
                         {
                             Console.WriteLine($"{item.CategoryName} - {item.Description}");
                         }
-                    } 
+                    }
                     else if (choice == "2")
                     {
                         Category category = new Category();
@@ -62,7 +62,7 @@ namespace NorthwindConsole
                             else
                             {
                                 logger.Info("Validation passed");
-                                // TODO: save category to db
+                                db.addCategory(category);
                             }
                         }
                         if (!isValid)
@@ -72,7 +72,8 @@ namespace NorthwindConsole
                                 logger.Error($"{result.MemberNames.First()} : {result.ErrorMessage}");
                             }
                         }
-                    } else if (choice == "3")
+                    }
+                    else if (choice == "3")
                     {
                         var db = new NorthwindContext();
                         var query = db.Categories.OrderBy(p => p.CategoryId);
@@ -87,7 +88,7 @@ namespace NorthwindConsole
                         logger.Info($"CategoryId {id} selected");
                         Category category = db.Categories.FirstOrDefault(c => c.CategoryId == id);
                         Console.WriteLine($"{category.CategoryName} - {category.Description}");
-                        foreach(Product p in category.Products)
+                        foreach (Product p in category.Products)
                         {
                             Console.WriteLine(p.ProductName);
                         }
@@ -96,10 +97,10 @@ namespace NorthwindConsole
                     {
                         var db = new NorthwindContext();
                         var query = db.Categories.Include("Products").OrderBy(p => p.CategoryId);
-                        foreach(var item in query)
+                        foreach (var item in query)
                         {
                             Console.WriteLine($"{item.CategoryName}");
-                            foreach(Product p in item.Products)
+                            foreach (Product p in item.Products)
                             {
                                 Console.WriteLine($"\t{p.ProductName}");
                             }
